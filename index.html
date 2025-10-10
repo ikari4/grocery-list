@@ -6,7 +6,7 @@
   <title>Grocery List</title>
 </head>
 <body>
-  <h1>Sign up</h1>
+  <h1>Grocery List</h1>
   <form id="groceryList">
     <label>Item Name: <input name="itemName" required /></label><br/>
     <label>Category: <input name="category" required /></label><br/>
@@ -22,7 +22,7 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const data = {
-        itemName: form.itemName.value.trim(),
+        item_Name: form.itemName.value.trim(),
         category: form.category.value.trim(),
       };
 
