@@ -30,15 +30,37 @@ export default async function handler(req, res) {
       res.status(500).json({ error: 'Server error' });
     }
 
-  } else if (req.method === 'GET') {
-    // Handle fetching all grocery items
-    try {
-      const result = await turso.execute(`SELECT item_name FROM groceries ORDER BY item_name`);
-      res.status(200).json({ items: result.rows });
-    } catch (err) {
-      console.error('DB fetch error', err);
-      res.status(500).json({ error: 'Server error' });
-    }
+    } else if (req.method === 'GET') {
+        const filter = req.query.filter; // read ?filter= from URL
+        let sql, args = [];
+
+        // Decide query based on filter
+        if (filter === 'allChecked') {
+            sql = `SELECT item_name, category FROM groceries WHERE category = 'checked' ORDER BY item_name`;
+        } else if (filter === 'allItems' || !filter) {
+            sql = `SELECT item_name, category FROM groceries ORDER BY item_name`;
+        } else {
+            // specific category like produce or dairy
+            sql = `SELECT item_name, category FROM groceries WHERE category = ? ORDER BY item_name`;
+            args = [filter];
+        }
+
+        try {
+            const result = await turso.execute({ sql, args });
+            res.status(200).json({ items: result.rows });
+         } catch (err) {
+            console.error('DB fetch error', err);
+            res.status(500).json({ error: 'Server error' });
+        }
+//   } else if (req.method === 'GET') {
+//     // Handle fetching all grocery items
+//     try {
+//       const result = await turso.execute(`SELECT item_name FROM groceries ORDER BY item_name`);
+//       res.status(200).json({ items: result.rows });
+//     } catch (err) {
+//       console.error('DB fetch error', err);
+//       res.status(500).json({ error: 'Server error' });
+//     }
 
   } else {
     res.status(405).json({ error: 'Only GET and POST allowed' });

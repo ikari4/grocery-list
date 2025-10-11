@@ -7,49 +7,59 @@
   <title>Grocery List</title>
 </head>
 <body>
-  <h1>Grocery List</h1>
-  <div id="top">
-    <button id="showItems">Show All Items</button>
-    <button id="addToDatabase">Add to Database</button>
-    <div id="msg" role="status"></div>
-    <ul id="itemsList"></ul>
-  </div>
+    <h1>Grocery List</h1>
+    <div id="top">
+        <!-- <button id="showItems">Show All Items</button> -->
+        <select name="dropdownName" id="dropdownId">
+            <option disabled selected>Select View</option>
+            <option value="allChecked">All Checked</option>
+            <option value="allItems">All Items</option>
+            <option value="produce">Produce</option>
+            <option value="dairy">Dairy</option>
+        </select>    
+        <button id="addToDatabase">Add to Database</button>
+        <div id="msg" role="status"></div>
+        <ul id="itemsList"></ul>
+    </div>
   
-  <script>
-    const form = document.getElementById('groceryList');
-    const msg = document.getElementById('msg');
-    const showBtn = document.getElementById('showItems');
-    const itemsList = document.getElementById('itemsList');
-    const addBtn = document.getElementById('addToDatabase');
+    <script>
+        // const form = document.getElementById('groceryList');
+        const msg = document.getElementById('msg');
+        // const showBtn = document.getElementById('showItems');
+        const itemsList = document.getElementById('itemsList');
+        const addBtn = document.getElementById('addToDatabase');
+        const dropdown = document.getElementById('dropdownID');
 
-    // Go To Add to Database Page
-    addBtn.addEventListener('click', async () => {
-        window.location.href = "addToDatabase.html";
-    });
-
-    //Fetch Items
-    showBtn.addEventListener('click', async () => {
-    msg.textContent = 'Loading...';
-    itemsList.innerHTML = '';
-
-    try {
-      const res = await fetch('/api/grocery'); // GET request
-      const json = await res.json();
-
-      if (res.ok) {
-        msg.textContent = `Loaded ${json.items.length} items:`;
-        json.items.forEach(item => {
-          const li = document.createElement('li');
-          li.textContent = item.item_name; // match column name
-          itemsList.appendChild(li);
+        // Go To Add to Database Page
+        addBtn.addEventListener('click', async () => {
+            window.location.href = "addToDatabase.html";
         });
-      } else {
-        msg.textContent = 'Error: ' + (json?.error || res.statusText);
-      }
-    } catch (err) {
-      msg.textContent = 'Network error: ' + err.message;
-    }
-    });
-  </script>
+
+        //Fetch Items
+        dropdown.addEventListener('change', async () => {
+            const selected = dropdown.value;
+        // showBtn.addEventListener('click', async () => {
+            msg.textContent = 'Loading...';
+            itemsList.innerHTML = '';
+
+        try {
+            const res = await fetch('/api/grocery?filter=${selected}'); // GET request
+            const json = await res.json();
+
+        if (res.ok) {
+            msg.textContent = `Loaded ${json.items.length} items:`;
+            json.items.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item.item_name; // match column name
+                itemsList.appendChild(li);
+            });
+        } else {
+            msg.textContent = 'Error: ' + (json?.error || res.statusText);
+        }
+        } catch (err) {
+            msg.textContent = 'Network error: ' + err.message;
+        }
+        });
+    </script>
 </body>
 </html>
