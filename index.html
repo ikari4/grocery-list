@@ -15,40 +15,12 @@
     <ul id="itemsList"></ul>
   </div>
   
-
   <script>
     const form = document.getElementById('groceryList');
     const msg = document.getElementById('msg');
     const showBtn = document.getElementById('showItems');
     const itemsList = document.getElementById('itemsList');
     const addBtn = document.getElementById('addToDatabase');
-
-    // Submit Form
-    // form.addEventListener('submit', async (e) => {
-    //   e.preventDefault();
-    //   const data = {
-    //     itemName: form.itemName.value.trim(),
-    //     category: form.category.value.trim(),
-    //   };
-
-    //   try {
-    //     const res = await fetch('/api/grocery', {
-    //       method: 'POST',
-    //       headers: { 'Content-Type': 'application/json' },
-    //       body: JSON.stringify(data)
-    //     });
-
-    //     const json = await res.json();
-    //     if (res.ok) {
-    //       msg.textContent = 'Saved — thank you!';
-    //       form.reset();
-    //     } else {
-    //       msg.textContent = 'Error: ' + (json?.error || res.statusText);
-    //     }
-    //   } catch (err) {
-    //     msg.textContent = 'Network error: ' + err.message;
-    //   }
-    // });
 
     // Go To Add to Database Page
     addBtn.addEventListener('click', async () => {
@@ -77,7 +49,7 @@
     } catch (err) {
       msg.textContent = 'Network error: ' + err.message;
     }
-  });
+    });
   </script>
 </body>
 </html>
