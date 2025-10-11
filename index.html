@@ -3,52 +3,55 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css">
   <title>Grocery List</title>
 </head>
 <body>
   <h1>Grocery List</h1>
-  <form id="groceryList">
-    <label>Item Name: <input name="itemName" required /></label><br/>
-    <label>Category: <input name="category" required /></label><br/>
-    <button type="submit">Submit</button>
-  </form>
-
-  <div id="msg" role="status"></div>
-
-  <button id="showItems">Show All Items</button>
-  <ul id="itemsList"></ul>
-
+  <div id="top">
+    <button id="showItems">Show All Items</button>
+    <button id="addToDatabase">Add to Database</button>
+  </div>
+  <div id="list_area">  
+    <ul id="itemsList"></ul>
+  </div>
   <script>
     const form = document.getElementById('groceryList');
     const msg = document.getElementById('msg');
     const showBtn = document.getElementById('showItems');
     const itemsList = document.getElementById('itemsList');
+    const addBtn = document.getElementById('addToDatabase')
 
     // Submit Form
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const data = {
-        itemName: form.itemName.value.trim(),
-        category: form.category.value.trim(),
-      };
+    // form.addEventListener('submit', async (e) => {
+    //   e.preventDefault();
+    //   const data = {
+    //     itemName: form.itemName.value.trim(),
+    //     category: form.category.value.trim(),
+    //   };
 
-      try {
-        const res = await fetch('/api/grocery', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
+    //   try {
+    //     const res = await fetch('/api/grocery', {
+    //       method: 'POST',
+    //       headers: { 'Content-Type': 'application/json' },
+    //       body: JSON.stringify(data)
+    //     });
 
-        const json = await res.json();
-        if (res.ok) {
-          msg.textContent = 'Saved — thank you!';
-          form.reset();
-        } else {
-          msg.textContent = 'Error: ' + (json?.error || res.statusText);
-        }
-      } catch (err) {
-        msg.textContent = 'Network error: ' + err.message;
-      }
+    //     const json = await res.json();
+    //     if (res.ok) {
+    //       msg.textContent = 'Saved — thank you!';
+    //       form.reset();
+    //     } else {
+    //       msg.textContent = 'Error: ' + (json?.error || res.statusText);
+    //     }
+    //   } catch (err) {
+    //     msg.textContent = 'Network error: ' + err.message;
+    //   }
+    // });
+
+    // Go To Add to Database Page
+    addBtn.addEventListener('click', async () => {
+        window.location.href = "addToDatabase.html";
     });
 
     //Fetch Items
