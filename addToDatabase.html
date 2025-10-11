@@ -13,15 +13,15 @@
         <label>Item Name: <input name="itemName" required /></label><br/>
         <label>Category: <input name="category" required /></label><br/>
         <button type="submit">Submit</button>
-        <button id="backHome">Back to List</button>
     </form>
+    <button id="backHome">Back to List</button>
 
     <script>
         const form = document.getElementById('groceryList');
         const msg = document.getElementById('msg');
         // const showBtn = document.getElementById('showItems');
         // const itemsList = document.getElementById('itemsList');
-        const backBtn = document.getElementById('backHome')
+        const backBtn = document.getElementById('backHome');
 
         // Submit Form
         form.addEventListener('submit', async (e) => {
