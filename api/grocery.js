@@ -35,14 +35,22 @@ export default async function handler(req, res) {
         let sql, args = [];
 
         // Decide query based on filter
-        if (filter === 'allChecked') {
-            sql = `SELECT item_name, category FROM groceries WHERE category = 'checked' ORDER BY item_name`;
-        } else if (filter === 'allItems' || !filter) {
-            sql = `SELECT item_name, category FROM groceries ORDER BY item_name`;
+        if (filter === "allChecked") {
+        sql = `SELECT item_name, category, checked 
+                FROM groceries 
+                WHERE checked = 1 
+                ORDER BY item_name`;
+        } else if (filter === "allItems" || !filter) {
+        sql = `SELECT item_name, category, checked 
+                FROM groceries 
+                ORDER BY item_name`;
         } else {
-            // specific category like produce or dairy
-            sql = `SELECT item_name, category FROM groceries WHERE category = ? ORDER BY item_name`;
-            args = [filter];
+        // e.g. "Produce" or "Dairy"
+        sql = `SELECT item_name, category, checked 
+                FROM groceries 
+                WHERE category = ? 
+                ORDER BY item_name`;
+        args = [filter];
         }
 
         try {
