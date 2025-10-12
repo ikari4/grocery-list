@@ -9,16 +9,20 @@
 <body>
   <h1>Grocery List</h1>
   <div id="top">
-    <select name="dropdownName" id="dropdownId">
-      <option disabled selected>Select View</option>
-      <option value="allChecked">All Checked</option>
-      <option value="allItems">All Items</option>
-      <option value="Produce">Produce</option>
-      <option value="Dairy">Dairy</option>
-    </select>
-    <button id="addToDatabase">Add to Database</button>
-    <div id="msg" role="status"></div>
-    <ul id="itemsList"></ul>
+    <div id="btnRow">
+        <select name="dropdownName" id="dropdownId">
+        <option disabled selected>Select View</option>
+        <option value="allChecked">All Checked</option>
+        <option value="allItems">All Items</option>
+        <option value="Produce">Produce</option>
+        <option value="Dairy">Dairy</option>
+        </select>
+        <button id="addToDatabase">Add to Database</button>
+    </div>
+    <div id="msgRow">
+        <div id="msg" role="status"></div>
+        <ul id="itemsList"></ul>
+    </div>
   </div>
 
   <script>

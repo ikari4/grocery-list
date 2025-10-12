@@ -1,5 +1,27 @@
   
-  ul {
+body {
+    background-color: #2c645b;
+    color: #f6f6f6;
+}
+ 
+h1 {
+    display: flex;
+    justify-content: center;
+}
+
+#top {
+    display: flex;
+    flex-direction: column;
+}
+
+#btnRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+ul {
     list-style-type: none;  /* removes bullets */
     padding-left: 0;        /* removes left indentation */
-  }
+}
+
