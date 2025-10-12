@@ -28,7 +28,7 @@
         // const showBtn = document.getElementById('showItems');
         const itemsList = document.getElementById('itemsList');
         const addBtn = document.getElementById('addToDatabase');
-        const dropdown = document.getElementById('dropdownID');
+        const dropdown = document.getElementById('dropdownId');
 
         // Go To Add to Database Page
         addBtn.addEventListener('click', async () => {
@@ -43,7 +43,7 @@
             itemsList.innerHTML = '';
 
         try {
-            const res = await fetch('/api/grocery?filter=${selected}'); // GET request
+            const res = await fetch(`/api/grocery?filter=${selected}`); // GET request
             const json = await res.json();
 
         if (res.ok) {
