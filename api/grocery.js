@@ -1,4 +1,3 @@
-// api/grocery.js
 import { createClient } from "@libsql/client";
 
 const turso = createClient({
@@ -6,71 +5,79 @@ const turso = createClient({
   authToken: process.env.TURSO_AUTH_TOKEN,
 });
 
-// Simple validation helper
-const isValidString = (s) => typeof s === 'string' && s.trim().length > 0;
+const isValidString = (s) => typeof s === "string" && s.trim().length > 0;
 
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const { itemName, category } = req.body || {};
+  if (req.method === "POST") {
+    const { itemName, category, checked } = req.body || {};
 
     if (!isValidString(itemName) || !isValidString(category)) {
-      res.status(400).json({ error: 'Invalid input' });
+      res.status(400).json({ error: "Invalid input" });
       return;
     }
 
     try {
       await turso.execute({
-        sql: `INSERT INTO groceries (item_name, category) VALUES (?, ?)`,
-        args: [itemName.trim(), category.trim()],
+        sql: `INSERT INTO groceries (item_name, category, checked) VALUES (?, ?, ?)`,
+        args: [itemName.trim(), category.trim(), checked ? 1 : 0],
       });
 
       res.status(200).json({ ok: true });
     } catch (err) {
-      console.error('DB error', err);
-      res.status(500).json({ error: 'Server error' });
+      console.error("DB insert error", err);
+      res.status(500).json({ error: "Server error" });
     }
 
-    } else if (req.method === 'GET') {
-        const filter = req.query.filter; // read ?filter= from URL
-        let sql, args = [];
+  } else if (req.method === "GET") {
+    const filter = req.query.filter;
+    let sql, args = [];
 
-        // Decide query based on filter
-        if (filter === "allChecked") {
-        sql = `SELECT item_name, category, checked 
-                FROM groceries 
-                WHERE checked = 1 
-                ORDER BY item_name`;
-        } else if (filter === "allItems" || !filter) {
-        sql = `SELECT item_name, category, checked 
-                FROM groceries 
-                ORDER BY item_name`;
-        } else {
-        // e.g. "Produce" or "Dairy"
-        sql = `SELECT item_name, category, checked 
-                FROM groceries 
-                WHERE category = ? 
-                ORDER BY item_name`;
-        args = [filter];
-        }
+    if (filter === "allChecked") {
+      sql = `SELECT id, item_name, category, checked 
+             FROM groceries 
+             WHERE checked = 1 
+             ORDER BY item_name`;
+    } else if (filter === "allItems" || !filter) {
+      sql = `SELECT id, item_name, category, checked 
+             FROM groceries 
+             ORDER BY item_name`;
+    } else {
+      sql = `SELECT id, item_name, category, checked 
+             FROM groceries 
+             WHERE category = ? 
+             ORDER BY item_name`;
+      args = [filter];
+    }
 
-        try {
-            const result = await turso.execute({ sql, args });
-            res.status(200).json({ items: result.rows });
-         } catch (err) {
-            console.error('DB fetch error', err);
-            res.status(500).json({ error: 'Server error' });
-        }
-//   } else if (req.method === 'GET') {
-//     // Handle fetching all grocery items
-//     try {
-//       const result = await turso.execute(`SELECT item_name FROM groceries ORDER BY item_name`);
-//       res.status(200).json({ items: result.rows });
-//     } catch (err) {
-//       console.error('DB fetch error', err);
-//       res.status(500).json({ error: 'Server error' });
-//     }
+    try {
+      const result = await turso.execute({ sql, args });
+      res.status(200).json({ items: result.rows });
+    } catch (err) {
+      console.error("DB fetch error", err);
+      res.status(500).json({ error: "Server error" });
+    }
+
+  } else if (req.method === "PATCH") {
+    const { id, checked } = req.body || {};
+
+    if (typeof id !== "number" || typeof checked !== "boolean") {
+      res.status(400).json({ error: "Invalid input" });
+      return;
+    }
+
+    try {
+      await turso.execute({
+        sql: `UPDATE groceries SET checked = ? WHERE id = ?`,
+        args: [checked ? 1 : 0, id],
+      });
+
+      res.status(200).json({ ok: true });
+    } catch (err) {
+      console.error("DB update error", err);
+      res.status(500).json({ error: "Server error" });
+    }
 
   } else {
-    res.status(405).json({ error: 'Only GET and POST allowed' });
+    res.status(405).json({ error: "Only GET, POST, and PATCH allowed" });
   }
 }
