@@ -29,11 +29,11 @@ h1 {
     font-size: 20px;
 }
 
-#msgRow {
+/* #msgRow {
     display: flex;
     text-indent: 150px;
     padding-top: 20px;
-}
+} */
 
 ul {
     list-style-type: none;  /* removes bullets */
