@@ -7,14 +7,42 @@
   <title>Grocery List</title>
 </head>
 <body>
-    <h1>Grocery List</h1>
+    <h1>Add New Item</h1>
 
     <form id="groceryList">
-        <label>Item Name: <input name="itemName" required /></label><br/>
-        <label>Category: <input name="category" required /></label><br/>
-        <button type="submit">Submit</button>
+        <div class="form-group">
+            <label for="itemName">Item Name:</label>
+            <input type="text" name="itemName">
+        </div>
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <!-- <input type="text" name="category"> -->
+            <select name="category" id="category" required>
+                <option disabled selected value="">Select Category</option>
+                <option value="Produce">Produce</option>
+                <option value="Dairy">Dairy</option>
+                <option value="Meat">Meat</option>
+                <option value="Frozen">Frozen</option>
+                <option value="Grocery">Grocery</option>
+                <option value="Bakery">Bakery</option>
+                <option value="Household">Household</option>
+                <option value="Alcohol">Alcohol</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="store">Store:</label>
+            <select name="store" id="store" required>
+                <option disabled selected value="">Select Store</option>
+                <option value="Big Y">Big Y</option>
+                <option value="BJs">BJs</option>
+            </select>
+        </div>
+        <div class="addButtons">
+            <button type="submit" >Submit</button>
+            <button id="backHome">Back</button>
+        </div>
     </form>
-    <button id="backHome">Back to List</button>
+    
     <div id="msg" role="status"></div>
     
     <script>

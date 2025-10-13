@@ -17,32 +17,39 @@ h1 {
 }
 
 #logoRow {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 360px;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 360px;
+  margin-bottom: 8px;
+}
+
+.logo {
+  width: 30%;
+  height: auto;
+  object-fit: contain;
+}
+
+#dbLogo img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  cursor: pointer;
+  transition: transform 0.15s ease-in-out;
+}
+
+#dbLogo img:hover {
+  transform: scale(1.08);
 }
 
 #btnRow {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    height: 25px;
+    height: 20px;
     align-items: center;
     margin-top: -18px;
     width: 360px;
-}
-
-.logo {
-    width: 30%;
-    height: 30%;
-    object-fit: contain;
-}
-
-#dbLogo {
-    width: 25%;
-    height: auto;
 }
 
 #BigYId {
@@ -50,7 +57,8 @@ h1 {
     border: none;
     font-size: 16px;
     width: 130px;
-    text-align: center;
+    text-align: left;
+    margin-left: 10px;
     background-color: white;
 }
 
@@ -59,8 +67,8 @@ h1 {
     border: none;
     font-size: 16px;
     width: 130px;
-    margin-left: 25px;
-    text-align: center;
+    margin-left: 10px;
+    text-align: left;
     background-color: white;
 }
 
@@ -83,3 +91,42 @@ ul {
     padding-left: 0;        /* removes left indentation */
 }
 
+#groceryList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-group label {
+    width: 100px;
+}
+
+.addButtons {
+    display: flex;
+     justify-content: center; /* centers the group */
+     gap: 15px;               /* space between buttons */
+     margin-top: 10px;
+}
+
+.addButtons button {
+    padding: 8px 16px;
+    width: 150px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.form-group input,
+.form-group select {
+    flex: 1;
+    width: 200px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
