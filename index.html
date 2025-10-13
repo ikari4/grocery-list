@@ -60,7 +60,8 @@
         const json = await res.json();
 
         if (res.ok) {
-          msg.textContent = `Loaded ${json.items.length} items:`;
+            const storeName = json.items[0]?.store || 'this store';
+            msg.textContent = `Loaded ${json.items.length} items from ${storeName}:`;
 
           json.items.forEach(item => {
             const li = document.createElement('li');
