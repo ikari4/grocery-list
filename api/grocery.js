@@ -1,3 +1,4 @@
+// api/grocery.js
 import { createClient } from "@libsql/client";
 
 const turso = createClient({
@@ -5,79 +6,81 @@ const turso = createClient({
   authToken: process.env.TURSO_AUTH_TOKEN,
 });
 
-const isValidString = (s) => typeof s === "string" && s.trim().length > 0;
+// Helper to validate strings
+const isValidString = (s) => typeof s === 'string' && s.trim().length > 0;
 
+// Main API handler
 export default async function handler(req, res) {
-  if (req.method === "POST") {
-    const { itemName, category, checked } = req.body || {};
+  try {
+    // Handle POST — add new grocery item
+    if (req.method === 'POST') {
+      const { itemName, category, store } = req.body || {};
 
-    if (!isValidString(itemName) || !isValidString(category)) {
-      res.status(400).json({ error: "Invalid input" });
-      return;
-    }
+      if (!isValidString(itemName) || !isValidString(category) || !isValidString(store)) {
+        res.status(400).json({ error: 'Invalid input' });
+        return;
+      }
 
-    try {
       await turso.execute({
-        sql: `INSERT INTO groceries (item_name, category, checked) VALUES (?, ?, ?)`,
-        args: [itemName.trim(), category.trim(), checked ? 1 : 0],
+        sql: `INSERT INTO groceries (item_name, category, store, checked)
+              VALUES (?, ?, ?, 0)`,
+        args: [itemName.trim(), category.trim(), store.trim()],
       });
 
       res.status(200).json({ ok: true });
-    } catch (err) {
-      console.error("DB insert error", err);
-      res.status(500).json({ error: "Server error" });
-    }
-
-  } else if (req.method === "GET") {
-    const filter = req.query.filter;
-    let sql, args = [];
-
-    if (filter === "allChecked") {
-      sql = `SELECT id, item_name, category, checked 
-             FROM groceries 
-             WHERE checked = 1 
-             ORDER BY item_name`;
-    } else if (filter === "allItems" || !filter) {
-      sql = `SELECT id, item_name, category, checked 
-             FROM groceries 
-             ORDER BY item_name`;
-    } else {
-      sql = `SELECT id, item_name, category, checked 
-             FROM groceries 
-             WHERE category = ? 
-             ORDER BY item_name`;
-      args = [filter];
-    }
-
-    try {
-      const result = await turso.execute({ sql, args });
-      res.status(200).json({ items: result.rows });
-    } catch (err) {
-      console.error("DB fetch error", err);
-      res.status(500).json({ error: "Server error" });
-    }
-
-  } else if (req.method === "PATCH") {
-    const { id, checked } = req.body || {};
-
-    if (typeof id !== "number" || typeof checked !== "boolean") {
-      res.status(400).json({ error: "Invalid input" });
       return;
     }
 
-    try {
+    // Handle GET — fetch items based on store + filter
+    if (req.method === 'GET') {
+      const { store, filter } = req.query || {};
+
+      if (!isValidString(store)) {
+        res.status(400).json({ error: 'Missing store parameter' });
+        return;
+      }
+
+      let sql = `SELECT id, item_name, category, checked, store FROM groceries WHERE store = ?`;
+      const args = [store];
+
+      if (filter === 'allChecked') {
+        sql += ` AND checked = 1`;
+      } else if (filter === 'Produce') {
+        sql += ` AND category = 'Produce'`;
+      } else if (filter === 'Dairy') {
+        sql += ` AND category = 'Dairy'`;
+      } // 'allItems' → no extra filter
+
+      sql += ` ORDER BY category, item_name`;
+
+      const result = await turso.execute({ sql, args });
+      res.status(200).json({ items: result.rows });
+      return;
+    }
+
+    // Handle PATCH — update checked status
+    if (req.method === 'PATCH') {
+      const { id, checked } = req.body || {};
+
+      if (!id || typeof checked !== 'boolean') {
+        res.status(400).json({ error: 'Invalid PATCH data' });
+        return;
+      }
+
       await turso.execute({
         sql: `UPDATE groceries SET checked = ? WHERE id = ?`,
         args: [checked ? 1 : 0, id],
       });
 
       res.status(200).json({ ok: true });
-    } catch (err) {
-      console.error("DB update error", err);
-      res.status(500).json({ error: "Server error" });
+      return;
     }
 
-  } else {
-    res.status(405).json({ error: "Only GET, POST, and PATCH allowed" });
+    // If any other HTTP method → not allowed
+    res.status(405).json({ error: 'Method not allowed' });
+  } catch (err) {
+    console.error('DB error:', err);
+    res.status(500).json({ error: 'Server error' });
   }
 }
+

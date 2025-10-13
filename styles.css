@@ -8,6 +8,7 @@ h1 {
     display: flex;
     justify-content: center;
     font-weight:lighter;
+    width: 360px;
 }
 
 #top {
@@ -15,52 +16,64 @@ h1 {
     flex-direction: column;
 }
 
+#logoRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 360px;
+    align-items: center;
+}
+
 #btnRow {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    height: 75px;
+    justify-content: space-between;
+    height: 25px;
+    align-items: center;
+    margin-top: -18px;
+    width: 360px;
+}
+
+.logo {
+    width: 30%;
+    height: 30%;
+    object-fit: contain;
+}
+
+#dbLogo {
+    width: 25%;
+    height: auto;
 }
 
 #BigYId {
-    background-image: url("./bigy.png");
-    background-size: contain;
-    background-repeat: no-repeat;
     background-position: center;
-    background-color: white;
     border: none;
-    font-size: 20px;
+    font-size: 16px;
     width: 130px;
     text-align: center;
+    background-color: white;
 }
 
 #BJsId {
-    background-image: url("./bjs.png");
-    background-size: contain;
-    background-repeat: no-repeat;
     background-position: center;
-    background-size: 60%;
-    background-color: white;
     border: none;
-    font-size: 20px;
+    font-size: 16px;
     width: 130px;
+    margin-left: 25px;
     text-align: center;
+    background-color: white;
 }
 
 #addToDatabase {
-    background-image: url("./addtodb.png");
-    background-size: contain;
-    background-repeat: no-repeat;
     background-position: center;
-    background-color: white;
     border: none;
-    font-size: 20px;
+    font-size: 16px;
     width: 130px;
     text-align: center;
+    background-color: white;
 }
 
 #msgRow {
-    /* display: flex; */
     padding-left: 5px;
     padding-top: 20px;
 }

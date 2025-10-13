@@ -4,21 +4,26 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="styles.css">
-  <title>Grocery List</title>
+  <title>Grocery Lists</title>
 </head>
 <body>
-  <h1>Grocery List</h1>
+  <h1>Grocery Lists</h1>
   <div id="top">
+    <div id="logoRow">
+        <img src="./bigy.png" class="logo">
+        <img src="./bjs.png" class="logo">
+        <img src="./addtodb.png" class="logo" id="dbLogo">
+    </div>
     <div id="btnRow">
         <select name="BigY" id="BigYId">
-            <option disabled selected> </option>
+            <option disabled selected>Select View</option>
             <option value="allChecked">All Checked</option>
             <option value="allItems">All Items</option>
             <option value="Produce">Produce</option>
             <option value="Dairy">Dairy</option>
         </select>
         <select name="BJs" id="BJsId">
-            <option disabled selected> </option>
+            <option disabled selected>Select View</option>
             <option value="allChecked">All Checked</option>
             <option value="allItems">All Items</option>
             <option value="Produce">Produce</option>
@@ -45,12 +50,13 @@
     });
 
     // Function: fetch items and display them
-    async function loadItems(filter) {
+    async function loadItems(store, filter) {
       msg.textContent = 'Loading...';
       itemsList.innerHTML = '';
 
       try {
-        const res = await fetch(`/api/grocery?filter=${filter}`);
+        const res = await fetch(`/api/grocery?store=${encodeURIComponent(store)}&filter=${filter}`);
+        // const res = await fetch(`/api/grocery?filter=${filter}`);
         const json = await res.json();
 
         if (res.ok) {
@@ -70,7 +76,7 @@
                 const patchRes = await fetch('/api/grocery', {
                   method: 'PATCH',
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ id: item.id, checked: checkbox.checked })
+                  body: JSON.stringify({ id: item.id, checked: checkbox.checked, store: item.store })
                 });
 
                 if (patchRes.ok) {
@@ -100,8 +106,14 @@
     // When dropdown changes, load items
     BigYdropdown.addEventListener('change', () => {
       const selected = BigYdropdown.value;
-      loadItems(selected);
+      loadItems('Big Y', selected);
     });
+
+    BJsdropdown.addEventListener('change', () => {
+      const selected = BJsdropdown.value;
+      loadItems('BJs', selected);
+    });   
+
   </script>
 </body>
 </html>
