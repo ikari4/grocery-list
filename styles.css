@@ -71,6 +71,7 @@ h1 {
     margin-left: 5px;
     text-align: left;
     background-color: white;
+    color: black;
 }
 
 #addToDatabase {
@@ -132,4 +133,23 @@ ul {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
+}
+
+h3 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 4px;
+}
+
+.category-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.category-list li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }

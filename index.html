@@ -13,8 +13,8 @@
         <img src="./bigy.png" class="logo">
         <img src="./bjs.png" class="logo">
         <a href="./addToDatabase.html" class="logo" id="dbLogo"><img src="./addtodb.png"></a>
-        <!-- <img src="./addtodb.png" href="./addToDatabase.html" class="logo" id="dbLogo"> -->
     </div>
+
     <div id="btnRow">
         <select name="BigY" id="BigYId">
             <option disabled selected>Select View</option>
@@ -32,9 +32,10 @@
         </select>
         <button id="addToDatabase"> </button>
     </div>
+
     <div id="msgRow">
         <div id="msg" role="status"></div>
-        <ul id="itemsList"></ul>
+        <div id="itemsList"></div>
     </div>
   </div>
 
@@ -50,53 +51,76 @@
       window.location.href = "addToDatabase.html";
     });
 
-    // Function: fetch items and display them
+    // Fetch and group items by category
     async function loadItems(store, filter) {
       msg.textContent = 'Loading...';
       itemsList.innerHTML = '';
 
       try {
         const res = await fetch(`/api/grocery?store=${encodeURIComponent(store)}&filter=${filter}`);
-        // const res = await fetch(`/api/grocery?filter=${filter}`);
         const json = await res.json();
 
         if (res.ok) {
-            const storeName = json.items[0]?.store || 'this store';
-            msg.textContent = `Loaded ${json.items.length} items from ${storeName}:`;
+          const storeName = json.items[0]?.store || 'this store';
+          msg.textContent = `Loaded ${json.items.length} items from ${storeName}:`;
 
+          // Group items by category
+          const categories = {};
           json.items.forEach(item => {
-            const li = document.createElement('li');
+            if (!categories[item.category]) {
+              categories[item.category] = [];
+            }
+            categories[item.category].push(item);
+          });
 
-            // Create checkbox
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.checked = item.checked === 1;
+          // Render grouped items
+          Object.keys(categories).forEach(category => {
+            const catHeader = document.createElement('h3');
+            catHeader.textContent = category;
+            itemsList.appendChild(catHeader);
 
-            // When checkbox changes, update DB and refresh list
-            checkbox.addEventListener('change', async () => {
-              try {
-                const patchRes = await fetch('/api/grocery', {
-                  method: 'PATCH',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ id: item.id, checked: checkbox.checked, store: item.store })
-                });
+            const ul = document.createElement('ul');
+            ul.classList.add('category-list');
 
-                if (patchRes.ok) {
-                  msg.textContent = `Updated "${item.item_name}" successfully.`;
-                  // Auto-refresh to reflect latest state
-                  await loadItems(BigYdropdown.value);
-                } else {
-                  msg.textContent = `Error updating "${item.item_name}".`;
+            categories[category].forEach(item => {
+              const li = document.createElement('li');
+
+              // Checkbox
+              const checkbox = document.createElement('input');
+              checkbox.type = 'checkbox';
+              checkbox.checked = item.checked === 1;
+
+              checkbox.addEventListener('change', async () => {
+                try {
+                  const patchRes = await fetch('/api/grocery', {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      id: item.id,
+                      checked: checkbox.checked,
+                      store: item.store
+                    })
+                  });
+
+                  if (patchRes.ok) {
+                    msg.textContent = `Updated "${item.item_name}" successfully.`;
+                    await loadItems(store, filter); // reload current view
+                  } else {
+                    msg.textContent = `Error updating "${item.item_name}".`;
+                  }
+                } catch (err) {
+                  msg.textContent = 'Network error: ' + err.message;
                 }
-              } catch (err) {
-                msg.textContent = 'Network error: ' + err.message;
-              }
+              });
+
+              li.appendChild(checkbox);
+              li.appendChild(document.createTextNode(' ' + item.item_name));
+              ul.appendChild(li);
             });
 
-            li.appendChild(checkbox);
-            li.appendChild(document.createTextNode(" " + item.item_name));
-            itemsList.appendChild(li);
+            itemsList.appendChild(ul);
           });
+
         } else {
           msg.textContent = 'Error: ' + (json?.error || res.statusText);
         }
@@ -114,8 +138,7 @@
     BJsdropdown.addEventListener('change', () => {
       const selected = BJsdropdown.value;
       loadItems('BJs', selected);
-    });   
-
+    });
   </script>
 </body>
 </html>
