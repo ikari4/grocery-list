@@ -151,6 +151,7 @@ h3 {
 
 .category-list li {
   display: flex;
+  font-size: 20px;
   align-items: center;
   gap: 6px;
 }
