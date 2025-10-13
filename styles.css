@@ -1,7 +1,7 @@
   
 body {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
+    font-size: 20px;
 }
  
 h1 {
@@ -55,10 +55,10 @@ h1 {
 #BigYId {
     background-position: center;
     border: none;
-    font-size: 16px;
+    font-size: 20px;
     width: 130px;
     text-align: left;
-    margin-left: 5px;
+    margin-left: 0px;
     background-color: white;
     color: black;
 }
@@ -66,7 +66,7 @@ h1 {
 #BJsId {
     background-position: center;
     border: none;
-    font-size: 16px;
+    font-size: 20px;
     width: 130px;
     margin-left: 5px;
     text-align: left;
@@ -77,7 +77,7 @@ h1 {
 #addToDatabase {
     background-position: center;
     border: none;
-    font-size: 16px;
+    font-size: 20px;
     width: 130px;
     text-align: center;
     background-color: white;
