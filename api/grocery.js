@@ -56,7 +56,7 @@ export default async function handler(req, res) {
       } else if (filter === 'Grocery') {
         sql += ` AND category = 'Grocery'`;
       } else if (filter === 'Bakery') {
-        sql += ` AND category = 'Bakery`;
+        sql += ` AND category = 'Bakery'`;
       } else if (filter === 'Household') {
         sql += ` AND category = 'Household'`;
       } else if (filter === 'Alcohol') {
