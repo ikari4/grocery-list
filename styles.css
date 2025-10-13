@@ -31,7 +31,7 @@ h1 {
 }
 
 #dbLogo img {
-  width: 100%;
+  width: 80%;
   height: auto;
   object-fit: contain;
   cursor: pointer;
@@ -58,8 +58,9 @@ h1 {
     font-size: 16px;
     width: 130px;
     text-align: left;
-    margin-left: 10px;
+    margin-left: 5px;
     background-color: white;
+    color: black;
 }
 
 #BJsId {
@@ -67,7 +68,7 @@ h1 {
     border: none;
     font-size: 16px;
     width: 130px;
-    margin-left: 10px;
+    margin-left: 5px;
     text-align: left;
     background-color: white;
 }
@@ -120,6 +121,7 @@ ul {
     border-radius: 5px;
     border: 1px solid #ccc;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .form-group input,
@@ -129,4 +131,5 @@ ul {
     padding: 6px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-size: 16px;
 }
