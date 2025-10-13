@@ -49,6 +49,18 @@ export default async function handler(req, res) {
         sql += ` AND category = 'Produce'`;
       } else if (filter === 'Dairy') {
         sql += ` AND category = 'Dairy'`;
+      } else if (filter === 'Meat') {
+        sql += ` AND category = 'Meat'`;
+      } else if (filter === 'Frozen') {
+        sql += ` AND category = 'Frozen'`;
+      } else if (filter === 'Grocery') {
+        sql += ` AND category = 'Grocery'`;
+      } else if (filter === 'Bakery') {
+        sql += ` AND category = 'Bakery`;
+      } else if (filter === 'Household') {
+        sql += ` AND category = 'Household'`;
+      } else if (filter === 'Alcohol') {
+        sql += ` AND category = 'Alcohol'`;
       } // 'allItems' → no extra filter
 
       sql += ` ORDER BY category, item_name`;
