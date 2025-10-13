@@ -10,14 +10,21 @@
   <h1>Grocery List</h1>
   <div id="top">
     <div id="btnRow">
-        <select name="dropdownName" id="dropdownId">
-        <option disabled selected>Select View</option>
-        <option value="allChecked">All Checked</option>
-        <option value="allItems">All Items</option>
-        <option value="Produce">Produce</option>
-        <option value="Dairy">Dairy</option>
+        <select name="BigY" id="BigYId">
+            <option disabled selected> </option>
+            <option value="allChecked">All Checked</option>
+            <option value="allItems">All Items</option>
+            <option value="Produce">Produce</option>
+            <option value="Dairy">Dairy</option>
         </select>
-        <button id="addToDatabase">Add to Database</button>
+        <select name="BJs" id="BJsId">
+            <option disabled selected> </option>
+            <option value="allChecked">All Checked</option>
+            <option value="allItems">All Items</option>
+            <option value="Produce">Produce</option>
+            <option value="Dairy">Dairy</option>
+        </select>
+        <button id="addToDatabase"> </button>
     </div>
     <div id="msgRow">
         <div id="msg" role="status"></div>
@@ -29,7 +36,8 @@
     const msg = document.getElementById('msg');
     const itemsList = document.getElementById('itemsList');
     const addBtn = document.getElementById('addToDatabase');
-    const dropdown = document.getElementById('dropdownId');
+    const BigYdropdown = document.getElementById('BigYId');
+    const BJsdropdown = document.getElementById('BJsId');
 
     // Go To Add Page
     addBtn.addEventListener('click', () => {
@@ -68,7 +76,7 @@
                 if (patchRes.ok) {
                   msg.textContent = `Updated "${item.item_name}" successfully.`;
                   // Auto-refresh to reflect latest state
-                  await loadItems(dropdown.value);
+                  await loadItems(BigYdropdown.value);
                 } else {
                   msg.textContent = `Error updating "${item.item_name}".`;
                 }
@@ -90,8 +98,8 @@
     }
 
     // When dropdown changes, load items
-    dropdown.addEventListener('change', () => {
-      const selected = dropdown.value;
+    BigYdropdown.addEventListener('change', () => {
+      const selected = BigYdropdown.value;
       loadItems(selected);
     });
   </script>
