@@ -105,14 +105,15 @@ ul {
 }
 
 .form-group label {
-    width: 100px;
+    width: 120px;
+    font-size: 24px;
 }
 
 .addButtons {
     display: flex;
-     justify-content: center; /* centers the group */
-     gap: 15px;               /* space between buttons */
-     margin-top: 10px;
+    justify-content: center; /* centers the group */
+    gap: 15px;               /* space between buttons */
+    margin-top: 10px;
 }
 
 .addButtons button {
@@ -121,7 +122,7 @@ ul {
     border-radius: 5px;
     border: 1px solid #ccc;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 20px;
 }
 
 .form-group input,
@@ -131,7 +132,8 @@ ul {
     padding: 6px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 20px;
+    color: black;
 }
 
 h3 {
