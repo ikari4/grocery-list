@@ -105,7 +105,7 @@ ul {
 }
 
 .form-group label {
-    width: 120px;
+    width: 110px;
     font-size: 24px;
 }
 
@@ -123,6 +123,8 @@ ul {
     border: 1px solid #ccc;
     cursor: pointer;
     font-size: 20px;
+    background-color: lgihtgray;
+    color: black;
 }
 
 .form-group input,
