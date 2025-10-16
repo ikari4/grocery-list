@@ -162,3 +162,8 @@ h3 {
 #itemsList li {
     font-size: 26px;
 }
+
+#itemsList input[type="checkbox"] {
+  width: 24px;   /* make wider */
+  height: 24px;  /* make taller */
+}
