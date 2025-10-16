@@ -159,6 +159,6 @@ h3 {
   gap: 6px;
 }
 
-#itemList li {
-    font-size: 4px;
+#itemsList li {
+    font-size: 24px;
 }
