@@ -18,14 +18,12 @@ h1 {
 #left {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  width: 300px;
 }
 
 #right {
-  flex: 0 0 100px;
-  /* flex-direction: row; */
-  /* align-items: center; */
-  /* justify-content: center; */
+  width: 75px;
+  padding-top: 10px;
 }
 
 .storeRow {
