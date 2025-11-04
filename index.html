@@ -64,14 +64,13 @@
     <div id="right">
         <a href="./addToDatabase.html" class="logo" id="dbLogo"><img src="./blackPlus.png"></a>
     </div>
-      <div id="btnRow">
+      <!-- <div id="btnRow">
           <button id="addToDatabase"></button>
-      </div>
+      </div> -->
   </div>
-    <div id="msgRow">
-        <div id="msg" role="status"></div>
-        <ul id="itemsList"></ul>
-    </div>
+  <div id="msgRow">
+    <div id="msg" role="status"></div>
+    <ul id="itemsList"></ul>
   </div>
 
   <script>
@@ -86,9 +85,9 @@
     let currentFilter = '';
 
     // Go To Add Page
-    addBtn.addEventListener('click', () => {
-      window.location.href = "addToDatabase.html";
-    });
+    // addBtn.addEventListener('click', () => {
+    //   window.location.href = "addToDatabase.html";
+    // });
 
     // Function: fetch items and display them
     async function loadItems(store, filter) {
