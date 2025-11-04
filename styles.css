@@ -14,7 +14,7 @@ h1 {
     flex-direction: column;
 }
 
-#logoRow {
+.storeRow {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -63,6 +63,17 @@ h1 {
 }
 
 #BJsId {
+    background-position: center;
+    border: none;
+    font-size: 20px;
+    width: 150px;
+    margin-left: 15px;
+    text-align: left;
+    background-color: white;
+    color: black;
+}
+
+#TraderJoesId {
     background-position: center;
     border: none;
     font-size: 20px;
