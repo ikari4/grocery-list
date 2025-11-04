@@ -11,26 +11,11 @@
 </head>
 <body>
   <div id="outerContainer">
-    <div id="left">
-      <div class="storeRow">
-        <img src="./bigy-icon.png" class="logo">
-        <select name="BigY" id="BigYId">
-          <option disabled selected>Select View</option>
-          <option value="allChecked">All Checked</option>
-          <option value="allItems">All Items</option>
-          <option value="Alcohol">Alcohol</option>
-          <option value="Bakery">Bakery</option>
-          <option value="Dairy">Dairy</option>
-          <option value="Frozen">Frozen</option>
-          <option value="Grocery">Grocery</option>
-          <option value="Household">Household</option>
-          <option value="Meat">Meat</option>
-          <option value="Produce">Produce</option>
-        </select>
-      </div>
-      <div class="storeRow">
-        <img src="./bjs-icon.png" class="logo">
-          <select name="BJs" id="BJsId">
+    <div id="innerContainer">
+      <div id="left">
+        <div class="storeRow">
+          <img src="./bigy-icon.png" class="logo">
+          <select name="BigY" id="BigYId">
             <option disabled selected>Select View</option>
             <option value="allChecked">All Checked</option>
             <option value="allItems">All Items</option>
@@ -43,34 +28,48 @@
             <option value="Meat">Meat</option>
             <option value="Produce">Produce</option>
           </select>
+        </div>
+        <div class="storeRow">
+          <img src="./bjs-icon.png" class="logo">
+            <select name="BJs" id="BJsId">
+              <option disabled selected>Select View</option>
+              <option value="allChecked">All Checked</option>
+              <option value="allItems">All Items</option>
+              <option value="Alcohol">Alcohol</option>
+              <option value="Bakery">Bakery</option>
+              <option value="Dairy">Dairy</option>
+              <option value="Frozen">Frozen</option>
+              <option value="Grocery">Grocery</option>
+              <option value="Household">Household</option>
+              <option value="Meat">Meat</option>
+              <option value="Produce">Produce</option>
+            </select>
+        </div>
+        <div class="storeRow">
+          <img src="./trader-joes-icon.png" class="logo">
+          <select name="TraderJoes" id="TraderJoesId">
+            <option disabled selected>Select View</option>
+            <option value="allChecked">All Checked</option>
+            <option value="allItems">All Items</option>
+            <option value="Alcohol">Alcohol</option>
+            <option value="Bakery">Bakery</option>
+            <option value="Dairy">Dairy</option>
+            <option value="Frozen">Frozen</option>
+            <option value="Grocery">Grocery</option>
+            <option value="Household">Household</option>
+            <option value="Meat">Meat</option>
+            <option value="Produce">Produce</option>
+          </select>
+        </div>
       </div>
-      <div class="storeRow">
-        <img src="./trader-joes-icon.png" class="logo">
-        <select name="TraderJoes" id="TraderJoesId">
-          <option disabled selected>Select View</option>
-          <option value="allChecked">All Checked</option>
-          <option value="allItems">All Items</option>
-          <option value="Alcohol">Alcohol</option>
-          <option value="Bakery">Bakery</option>
-          <option value="Dairy">Dairy</option>
-          <option value="Frozen">Frozen</option>
-          <option value="Grocery">Grocery</option>
-          <option value="Household">Household</option>
-          <option value="Meat">Meat</option>
-          <option value="Produce">Produce</option>
-        </select>
+      <div id="right">
+          <a href="./addToDatabase.html" class="logo" id="dbLogo"><img src="./blackPlus.png"></a>
       </div>
     </div>
-    <div id="right">
-        <a href="./addToDatabase.html" class="logo" id="dbLogo"><img src="./blackPlus.png"></a>
+    <div id="msgRow">
+      <div id="msg" role="status">Make selection to display grocery list</div>
+      <ul id="itemsList"></ul>
     </div>
-      <!-- <div id="btnRow">
-          <button id="addToDatabase"></button>
-      </div> -->
-  </div>
-  <div id="msgRow">
-    <div id="msg" role="status"></div>
-    <ul id="itemsList"></ul>
   </div>
 
   <script>
