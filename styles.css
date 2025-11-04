@@ -9,9 +9,23 @@ h1 {
     text-align: center;
 }
 
-#top {
+#outerContainer {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    width: 100%
+}
+
+#left {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+#right {
+  flex: 0 0 100px;
+  /* flex-direction: row; */
+  /* align-items: center; */
+  /* justify-content: center; */
 }
 
 .storeRow {
@@ -30,9 +44,7 @@ h1 {
 }
 
 #dbLogo img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
+  height: 5%;
   cursor: pointer;
   transition: transform 0.15s ease-in-out;
 }
@@ -41,7 +53,7 @@ h1 {
   transform: scale(1.08);
 }
 
-#btnRow {
+/* #btnRow {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -49,7 +61,7 @@ h1 {
     align-items: center;
     margin-top: -18px;
     width: 390px;
-}
+} */
 
 #BigYId {
     background-position: center;

@@ -10,26 +10,11 @@
   <title>Grocery Lists</title>
 </head>
 <body>
-  <div id="top">
-    <div class="storeRow">
-      <img src="./bigy-icon.png" class="logo">
-      <select name="BigY" id="BigYId">
-        <option disabled selected>Select View</option>
-        <option value="allChecked">All Checked</option>
-        <option value="allItems">All Items</option>
-        <option value="Alcohol">Alcohol</option>
-        <option value="Bakery">Bakery</option>
-        <option value="Dairy">Dairy</option>
-        <option value="Frozen">Frozen</option>
-        <option value="Grocery">Grocery</option>
-        <option value="Household">Household</option>
-        <option value="Meat">Meat</option>
-        <option value="Produce">Produce</option>
-      </select>
-    </div>
-    <div class="storeRow">
-      <img src="./bjs-icon.png" class="logo">
-        <select name="BJs" id="BJsId">
+  <div id="outerContainer">
+    <div id="left">
+      <div class="storeRow">
+        <img src="./bigy-icon.png" class="logo">
+        <select name="BigY" id="BigYId">
           <option disabled selected>Select View</option>
           <option value="allChecked">All Checked</option>
           <option value="allItems">All Items</option>
@@ -42,32 +27,47 @@
           <option value="Meat">Meat</option>
           <option value="Produce">Produce</option>
         </select>
+      </div>
+      <div class="storeRow">
+        <img src="./bjs-icon.png" class="logo">
+          <select name="BJs" id="BJsId">
+            <option disabled selected>Select View</option>
+            <option value="allChecked">All Checked</option>
+            <option value="allItems">All Items</option>
+            <option value="Alcohol">Alcohol</option>
+            <option value="Bakery">Bakery</option>
+            <option value="Dairy">Dairy</option>
+            <option value="Frozen">Frozen</option>
+            <option value="Grocery">Grocery</option>
+            <option value="Household">Household</option>
+            <option value="Meat">Meat</option>
+            <option value="Produce">Produce</option>
+          </select>
+      </div>
+      <div class="storeRow">
+        <img src="./trader-joes-icon.png" class="logo">
+        <select name="TraderJoes" id="TraderJoesId">
+          <option disabled selected>Select View</option>
+          <option value="allChecked">All Checked</option>
+          <option value="allItems">All Items</option>
+          <option value="Alcohol">Alcohol</option>
+          <option value="Bakery">Bakery</option>
+          <option value="Dairy">Dairy</option>
+          <option value="Frozen">Frozen</option>
+          <option value="Grocery">Grocery</option>
+          <option value="Household">Household</option>
+          <option value="Meat">Meat</option>
+          <option value="Produce">Produce</option>
+        </select>
+      </div>
     </div>
-    <div class="storeRow">
-      <img src="./trader-joes-icon.png" class="logo">
-      <select name="TraderJoes" id="TraderJoesId">
-        <option disabled selected>Select View</option>
-        <option value="allChecked">All Checked</option>
-        <option value="allItems">All Items</option>
-        <option value="Alcohol">Alcohol</option>
-        <option value="Bakery">Bakery</option>
-        <option value="Dairy">Dairy</option>
-        <option value="Frozen">Frozen</option>
-        <option value="Grocery">Grocery</option>
-        <option value="Household">Household</option>
-        <option value="Meat">Meat</option>
-        <option value="Produce">Produce</option>
-      </select>
-    </div>
-        
+    <div id="right">
         <a href="./addToDatabase.html" class="logo" id="dbLogo"><img src="./blackPlus.png"></a>
     </div>
-    <div id="btnRow">
-
-
-        <button id="addToDatabase"></button>
-    </div>
-
+      <!-- <div id="btnRow">
+          <button id="addToDatabase"></button>
+      </div> -->
+  </div>
     <div id="msgRow">
         <div id="msg" role="status"></div>
         <ul id="itemsList"></ul>
@@ -80,6 +80,7 @@
     const addBtn = document.getElementById('addToDatabase');
     const BigYdropdown = document.getElementById('BigYId');
     const BJsdropdown = document.getElementById('BJsId');
+    const TraderJoesdropdown = document.getElementById('TraderJoesId');
 
     let currentStore = '';
     let currentFilter = '';
@@ -169,6 +170,12 @@
     BJsdropdown.addEventListener('change', () => {
       currentStore = 'BJs';
       currentFilter = BJsdropdown.value;
+      loadItems(currentStore, currentFilter);
+    });
+
+    TraderJoesdropdown.addEventListener('change', () => {
+      currentStore = 'Trader Joes';
+      currentFilter = TraderJoesdropdown.value;
       loadItems(currentStore, currentFilter);
     });
   </script>
