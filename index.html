@@ -83,10 +83,24 @@
     let currentStore = '';
     let currentFilter = '';
 
-    // Go To Add Page
-    // addBtn.addEventListener('click', () => {
-    //   window.location.href = "addToDatabase.html";
-    // });
+    const dropdowns = [BigYdropdown, BJsdropdown, TraderJoesdropdown];
+
+    function handleDropdownChange(selectedDropdown, storeName) {
+      // Highlight selected dropdown
+      dropdowns.forEach(dd => {
+        if (dd === selectedDropdown) {
+          dd.classList.add("active-dropdown");
+        } else {
+          dd.classList.remove("active-dropdown");
+          dd.selectedIndex = 0;          // reset other dropdowns (optional)
+        }
+      });
+
+      // Update your store + filter logic
+      currentStore = storeName;
+      currentFilter = selectedDropdown.value;
+      loadItems(currentStore, currentFilter);
+    }
 
     // Function: fetch items and display them
     async function loadItems(store, filter) {
@@ -160,21 +174,15 @@
 
     // When dropdown changes, load items
     BigYdropdown.addEventListener('change', () => {
-      currentStore = 'Big Y';
-      currentFilter = BigYdropdown.value;
-      loadItems(currentStore, currentFilter);
+      handleDropdownChange(BigYdropdown, 'Big Y');
     });
 
     BJsdropdown.addEventListener('change', () => {
-      currentStore = 'BJs';
-      currentFilter = BJsdropdown.value;
-      loadItems(currentStore, currentFilter);
+      handleDropdownChange(BJsdropdown, 'BJs');
     });
 
     TraderJoesdropdown.addEventListener('change', () => {
-      currentStore = 'Trader Joes';
-      currentFilter = TraderJoesdropdown.value;
-      loadItems(currentStore, currentFilter);
+      handleDropdownChange(TraderJoesdropdown, 'Trader Joes');
     });
   </script>
 </body>

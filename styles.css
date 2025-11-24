@@ -201,3 +201,7 @@ h3 {
   width: 24px;   /* make wider */
   height: 24px;  /* make taller */
 }
+
+.active-dropdown {
+  font-weight: bold;
+}
