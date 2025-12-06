@@ -161,6 +161,23 @@ ul {
     color: black;
 }
 
+.searchButton {
+    display: flex;
+    justify-content: center; /* centers the group */
+    margin-top: 10px;
+}
+
+.searchButton button {
+    padding: 8px 16px;
+    width: 150px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 20px;
+    background-color: lightgray;
+    color: black;
+}
+
 .form-group input,
 .form-group select {
     flex: 1;
@@ -204,4 +221,32 @@ h3 {
 
 .active-dropdown {
   font-weight: bold;
+}
+
+/* center the results table, constrain width and add zebra striping */
+.results-table {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto; /* centers the table */
+    border-collapse: collapse;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    font-family: inherit;
+}
+
+.results-table th,
+.results-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* header style */
+.results-table thead th {
+    background: #fafafa;
+    font-weight: 600;
+}
+
+/* alternating row background (light gray) */
+.results-table tbody tr:nth-child(even) {
+    background: #f5f5f5; /* adjust if you have a specific light-gray in the site */
 }

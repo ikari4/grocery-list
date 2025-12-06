@@ -43,6 +43,21 @@
             <button id="backHome">Back</button>
         </div>
     </form>
+    <br>
+    <hr>
+    <br>
+    <h1>Search For Item</h1>
+    <form id="search">
+        <div class="form-group">
+            <label for="searchItem">Search:</label>
+            <input type="text" name="searchItem" id="searchItem">
+        </div>
+        <div class="searchButton">
+            <button type="submit" id="searchBtn">Search</button>
+        </div>
+    </form>
+    <br>
+    <div id="listArea"></div>
     
     <div id="msg" role="status"></div>
     
@@ -50,34 +65,108 @@
         const form = document.getElementById('groceryList');
         const msg = document.getElementById('msg');
         const backBtn = document.getElementById('backHome');
+        const searchForm = document.getElementById('search');
+        const listArea = document.getElementById('listArea');
 
-        // Submit Form
-        form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const data = {
-            itemName: form.itemName.value.trim(),
-            category: form.category.value.trim(),
-            store: form.store.value.trim(),
-        };
-
-        try {
-            const res = await fetch('/api/grocery', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-            });
-
-            const json = await res.json();
-            if (res.ok) {
-            msg.textContent = 'Saved — thank you!';
-            form.reset();
-            } else {
-            msg.textContent = 'Error: ' + (json?.error || res.statusText);
-            }
-        } catch (err) {
-            msg.textContent = 'Network error: ' + err.message;
+        // helper to escape HTML for safe insertion into the DOM
+        function escapeHtml(str) {
+            return String(str ?? '').replace(/[&<>"']/g, s => (
+                {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]
+            ));
         }
+
+        // Submit Add Form
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                itemName: form.itemName.value.trim(),
+                category: form.category.value.trim(),
+                store: form.store.value.trim(),
+            };
+
+            try {
+                const res = await fetch('/api/grocery', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+                });
+
+                const json = await res.json();
+                if (res.ok) {
+                msg.textContent = 'Saved — thank you!';
+                form.reset();
+                } else {
+                msg.textContent = 'Error: ' + (json?.error || res.statusText);
+                }
+            } catch (err) {
+                msg.textContent = 'Network error: ' + err.message;
+            }
         });
+
+        // Submit Search Form
+        searchForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const searchItem = searchForm.searchItem.value.trim()
+
+            try {
+                const res = await fetch(`/api/search?searchTerm=${encodeURIComponent(searchItem)}`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const json = await res.json();
+                const results = json.items;
+
+                if (res.ok) {
+                    if (!results.length) {
+                        listArea.textContent = 'No results found';
+                        msg.textContent = 'No matches';
+                        return;
+                    }
+
+                    // build table
+                    const table = document.createElement('table');
+                    table.className = 'results-table';
+                    table.innerHTML = `
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Store</th>
+                                <th>Category</th>
+                            </tr>
+                        </thead>
+                    `;
+                    const tbody = document.createElement('tbody');
+                    results.forEach(r => {
+                        const tr = document.createElement('tr');
+                        // handle possible property names: item_name, itemName, item
+                        const item = r.item_name ?? r.itemName ?? r.item ?? '';
+                        const store = r.store ?? '';
+                        const category = r.category ?? '';
+                        tr.innerHTML = `
+                            <td>${escapeHtml(item)}</td>
+                            <td>${escapeHtml(store)}</td>
+                            <td>${escapeHtml(category)}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                    table.appendChild(tbody);
+
+                    listArea.innerHTML = '';
+                    listArea.appendChild(table);
+
+                    msg.textContent = `Found ${results.length} item(s)`;
+                    // optionally clear the search input:
+                    searchForm.reset();
+
+                } else {
+                    msg.textContent = 'Error: ' + (json?.error || res.statusText);
+                }
+            } catch (err) {
+                msg.textContent = 'Network error: ' + err.message;
+            }
+        });
+
 
         // Go To Add to Database Page
         backBtn.addEventListener('click', async () => {
