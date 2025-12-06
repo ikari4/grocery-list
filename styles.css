@@ -143,31 +143,13 @@ ul {
     font-size: 24px;
 }
 
-.addButtons {
-    display: flex;
-    justify-content: center; /* centers the group */
-    gap: 15px;               /* space between buttons */
-    margin-top: 10px;
-}
-
-.addButtons button {
-    padding: 8px 16px;
-    width: 150px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    font-size: 20px;
-    background-color: lightgray;
-    color: black;
-}
-
-.searchButton {
+.buttonDiv {
     display: flex;
     justify-content: center; /* centers the group */
     margin-top: 10px;
 }
 
-.searchButton button {
+.buttonDiv button {
     padding: 8px 16px;
     width: 150px;
     border-radius: 5px;
@@ -225,8 +207,8 @@ h3 {
 
 /* center the results table, constrain width and add zebra striping */
 .results-table {
-    width: 90%;
-    max-width: 800px;
+    width: 100%;
+    /* max-width: 800px; */
     margin: 20px auto; /* centers the table */
     border-collapse: collapse;
     box-shadow: 0 1px 3px rgba(0,0,0,0.06);

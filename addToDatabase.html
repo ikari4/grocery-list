@@ -38,9 +38,8 @@
                 <option value="Trader Joes">Trader Joes</option>
             </select>
         </div>
-        <div class="addButtons">
+        <div class="buttonDiv">
             <button type="submit" >Submit</button>
-            <button id="backHome">Back</button>
         </div>
     </form>
     <br>
@@ -52,7 +51,7 @@
             <label for="searchItem">Search:</label>
             <input type="text" name="searchItem" id="searchItem">
         </div>
-        <div class="searchButton">
+        <div class="buttonDiv">
             <button type="submit" id="searchBtn">Search</button>
         </div>
     </form>
@@ -60,13 +59,19 @@
     <div id="listArea"></div>
     
     <div id="msg" role="status"></div>
-    
+    <br>
+    <hr>
+    <br>   
+    <div class="buttonDiv">
+        <button id="backHome">Back</button>
+    </div>
     <script>
         const form = document.getElementById('groceryList');
         const msg = document.getElementById('msg');
         const backBtn = document.getElementById('backHome');
         const searchForm = document.getElementById('search');
         const listArea = document.getElementById('listArea');
+        const searchBtn = document.getElementById('searchBtn');
 
         // helper to escape HTML for safe insertion into the DOM
         function escapeHtml(str) {
@@ -105,6 +110,8 @@
 
         // Submit Search Form
         searchForm.addEventListener('submit', async (e) => {
+            // searchBtn.disabled = true;
+            searchBtn.textContent = 'Wait...';
             e.preventDefault();
             const searchItem = searchForm.searchItem.value.trim()
 
@@ -119,6 +126,8 @@
 
                 if (res.ok) {
                     if (!results.length) {
+                        searchBtn.disabled = false;
+                        searchBtn.textContent = 'Search';
                         listArea.textContent = 'No results found';
                         msg.textContent = 'No matches';
                         return;
@@ -156,15 +165,22 @@
                     listArea.appendChild(table);
 
                     msg.textContent = `Found ${results.length} item(s)`;
-                    // optionally clear the search input:
+                    searchBtn.disabled = false;
+                    searchBtn.textContent = 'Search';
                     searchForm.reset();
 
                 } else {
+                    searchBtn.disabled = false;
+                    searchBtn.textContent = 'Search';
                     msg.textContent = 'Error: ' + (json?.error || res.statusText);
+                    
                 }
             } catch (err) {
+                searchBtn.disabled = false;
+                searchBtn.textContent = 'Search';
                 msg.textContent = 'Network error: ' + err.message;
             }
+            
         });
 
 
