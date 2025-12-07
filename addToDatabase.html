@@ -139,25 +139,28 @@
                     table.innerHTML = `
                         <thead>
                             <tr>
-                                <th>Select</th>
+                                <th>&#x2713</th>
                                 <th>Results</th>
-                                <th>Delete</th>
+                                <th>&#x274C</th>
                             </tr>
                         </thead>
                     `;
                     const tbody = document.createElement('tbody');
                     results.forEach(r => {
                         const tr = document.createElement('tr');
+                        // checkbox for adding item to grocery list
                         const checkbox = document.createElement('input');
                         checkbox.type = 'checkbox';
                         checkbox.checked = r.checked === 1;
+                        // button for deleting item from database
+                        const deleteMe = document.createElement('button');
+                        deleteMe.textContent = 'X';
+
                         if (r.id !=null) checkbox.dataset.id=String(r.id);
                         
                             // When checkbox changes, update DB and refresh list
                             checkbox.addEventListener('change', async () => {
                                 try {
-                                // const scrollY = window.scrollY; // Save scroll position
-
                                 const patchRes = await fetch('/api/grocery', {
                                     method: 'PATCH',
                                     headers: { 'Content-Type': 'application/json' },
@@ -166,10 +169,6 @@
 
                                 if (patchRes.ok) {
                                     msg.textContent = `Updated "${r.item_name}" successfully.`;
-
-                                    // Reload and restore scroll position
-                                    // await loadItems(currentStore, currentFilter);
-                                    // window.scrollTo(0, scrollY);
                                 } else {
                                     msg.textContent = `Error updating "${r.item_name}".`;
                                 }
@@ -188,11 +187,15 @@
                             <td>${escapeHtml(item)}<br>
                             ${escapeHtml(store)}<br>
                             ${escapeHtml(category)}</td>
-                            <td class="cd-cell"></td>
+                            <td class="del-Btn"></td>
                         `;
 
                         const cbCell = tr.querySelector('.cb-cell');
                         if (cbCell) cbCell.appendChild(checkbox);
+                        
+                        const delBtn = tr.querySelector('.del-Btn');
+                        if (delBtn) delBtn.appendChild(deleteMe);
+
                         tbody.appendChild(tr);
                     });
                     table.appendChild(tbody);

@@ -145,7 +145,7 @@ ul {
 
 .buttonDiv {
     display: flex;
-    justify-content: center; /* centers the group */
+    justify-content: center;
     margin-top: 10px;
 }
 
@@ -197,19 +197,17 @@ h3 {
 }
 
 #itemsList input[type="checkbox"] {
-  width: 24px;   /* make wider */
-  height: 24px;  /* make taller */
+  width: 24px;
+  height: 24px;
 }
 
 .active-dropdown {
   font-weight: bold;
 }
 
-/* center the results table, constrain width and add zebra striping */
 .results-table {
     width: 30%;
-    /* max-width: 800px; */
-    margin: 20px auto; /* centers the table */
+    margin: 20px auto;
     border-collapse: collapse;
     box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     font-family: inherit;
@@ -222,23 +220,37 @@ h3 {
     border: 1px solid rgba(0,0,0,0.06);
 }
 
-/* header style */
 .results-table thead th {
     background: #fafafa;
     font-weight: 600;
 }
 
-/* alternating row background (light gray) */
 .results-table tbody tr:nth-child(even) {
-    background: #f5f5f5; /* adjust if you have a specific light-gray in the site */
+    background: #f5f5f5;
 }
 
 .results-table th:nth-child(1), th:nth-child(3) {
-  width: 10%;
+  width: 5%;
 }
 
-@media screen {
+@media screen and (max-width: 500px) {
   .results-table {
     width: 100%;
   }
+}
+
+.cb-cell input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+}
+
+.del-Btn button {
+  font-size: 18px;
+  height: 28px;
+  width: 28px;
+  background-color: red;
+  border: 1px solid gray;
+  color: white;
+  font-weight: bold;
+  border-radius: 50%;
 }
