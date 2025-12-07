@@ -20,7 +20,7 @@ export default async function handler(req, res) {
         return;
       }
 
-      let sql = `SELECT id, item_name, category, store FROM groceries WHERE item_name LIKE ?`;
+      let sql = `SELECT id, item_name, category, store, checked FROM groceries WHERE item_name LIKE ?`;
       const args = [`%${searchTerm}%`];
 
       const result = await turso.execute({ sql, args });

@@ -139,24 +139,60 @@
                     table.innerHTML = `
                         <thead>
                             <tr>
-                                <th>Item</th>
-                                <th>Store</th>
-                                <th>Category</th>
+                                <th>Select</th>
+                                <th>Results</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                     `;
                     const tbody = document.createElement('tbody');
                     results.forEach(r => {
                         const tr = document.createElement('tr');
-                        // handle possible property names: item_name, itemName, item
-                        const item = r.item_name ?? r.itemName ?? r.item ?? '';
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.checked = r.checked === 1;
+                        if (r.id !=null) checkbox.dataset.id=String(r.id);
+                        
+                            // When checkbox changes, update DB and refresh list
+                            checkbox.addEventListener('change', async () => {
+                                try {
+                                // const scrollY = window.scrollY; // Save scroll position
+
+                                const patchRes = await fetch('/api/grocery', {
+                                    method: 'PATCH',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ id: checkbox.dataset.id, checked: checkbox.checked, store: r.store })
+                                });
+
+                                if (patchRes.ok) {
+                                    msg.textContent = `Updated "${r.item_name}" successfully.`;
+
+                                    // Reload and restore scroll position
+                                    // await loadItems(currentStore, currentFilter);
+                                    // window.scrollTo(0, scrollY);
+                                } else {
+                                    msg.textContent = `Error updating "${r.item_name}".`;
+                                }
+                                } catch (err) {
+                                msg.textContent = 'Network error: ' + err.message;
+                                }
+                            });
+
+
+
+                        const item = r.item_name ?? '';
                         const store = r.store ?? '';
                         const category = r.category ?? '';
                         tr.innerHTML = `
-                            <td>${escapeHtml(item)}</td>
-                            <td>${escapeHtml(store)}</td>
-                            <td>${escapeHtml(category)}</td>
+                            <td class="cb-cell"></td>
+                            <td>${escapeHtml(item)}<br>
+                            ${escapeHtml(store)}<br>
+                            ${escapeHtml(category)}</td>
+                            <td class="cd-cell"></td>
                         `;
+
+                        const cbCell = tr.querySelector('.cb-cell');
+                        if (cbCell) cbCell.appendChild(checkbox);
                         tbody.appendChild(tr);
                     });
                     table.appendChild(tbody);
