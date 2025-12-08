@@ -1,4 +1,4 @@
-// api/search.js
+// api/get-search.js
 import { createClient } from "@libsql/client";
 
 const turso = createClient({
@@ -11,25 +11,7 @@ const isValidString = (s) => typeof s === 'string' && s.trim().length > 0;
 
 export default async function handler(req, res) {
   try {
-  // Handle POST — add new grocery item
-    if (req.method === 'POST') {
-      const { itemName, category, store } = req.body || {};
 
-      if (!isValidString(itemName) || !isValidString(category) || !isValidString(store)) {
-        res.status(400).json({ error: 'Invalid input' });
-        return;
-      }
-
-      await turso.execute({
-        sql: `INSERT INTO groceries (item_name, category, store, checked)
-              VALUES (?, ?, ?, 0)`,
-        args: [itemName.trim(), category.trim(), store.trim()],
-      });
-
-      res.status(200).json({ ok: true });
-      return;
-    }
-      
     // Handle GET — fetch items based on store + filter
     if (req.method === 'GET') {
       const { searchTerm } = req.query || {};

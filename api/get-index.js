@@ -1,4 +1,4 @@
-// api/grocery.js
+// api/get-index.js
 import { createClient } from "@libsql/client";
 
 const turso = createClient({
@@ -12,24 +12,7 @@ const isValidString = (s) => typeof s === 'string' && s.trim().length > 0;
 // Main API handler
 export default async function handler(req, res) {
   try {
-    // Handle POST — add new grocery item
-    if (req.method === 'POST') {
-      const { itemName, category, store } = req.body || {};
 
-      if (!isValidString(itemName) || !isValidString(category) || !isValidString(store)) {
-        res.status(400).json({ error: 'Invalid input' });
-        return;
-      }
-
-      await turso.execute({
-        sql: `INSERT INTO groceries (item_name, category, store, checked)
-              VALUES (?, ?, ?, 0)`,
-        args: [itemName.trim(), category.trim(), store.trim()],
-      });
-
-      res.status(200).json({ ok: true });
-      return;
-    }
 
     // Handle GET — fetch items based on store + filter
     if (req.method === 'GET') {
@@ -70,24 +53,6 @@ export default async function handler(req, res) {
       return;
     }
 
-    // Handle PATCH — update checked status
-    if (req.method === 'PATCH') {
-      const { id, checked } = req.body || {};
-
-      if (!id || typeof checked !== 'boolean') {
-        res.status(400).json({ error: 'Invalid PATCH data' });
-        return;
-      }
-
-      await turso.execute({
-        sql: `UPDATE groceries SET checked = ? WHERE id = ?`,
-        args: [checked ? 1 : 0, id],
-      });
-
-      res.status(200).json({ ok: true });
-      return;
-    }
-
     // If any other HTTP method → not allowed
     res.status(405).json({ error: 'Method not allowed' });
   } catch (err) {
@@ -95,4 +60,3 @@ export default async function handler(req, res) {
     res.status(500).json({ error: 'Server error' });
   }
 }
-

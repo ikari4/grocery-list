@@ -90,7 +90,7 @@
             };
 
             try {
-                const res = await fetch('/api/grocery', {
+                const res = await fetch('/api/post', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -116,7 +116,7 @@
             const searchItem = searchForm.searchItem.value.trim()
 
             try {
-                const res = await fetch(`/api/search?searchTerm=${encodeURIComponent(searchItem)}`, {
+                const res = await fetch(`/api/get-search?searchTerm=${encodeURIComponent(searchItem)}`, {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json' }
                 });
@@ -158,13 +158,13 @@
 
                         if (r.id !=null) checkbox.dataset.id=String(r.id);
                         
-                            // When checkbox changes, update DB and refresh list
-                            checkbox.addEventListener('change', async () => {
-                                try {
-                                const patchRes = await fetch('/api/grocery', {
+                        // When checkbox changes, update DB and refresh list
+                        checkbox.addEventListener('change', async () => {
+                            try {
+                                const patchRes = await fetch('/api/patch', {
                                     method: 'PATCH',
                                     headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ id: checkbox.dataset.id, checked: checkbox.checked, store: r.store })
+                                    body: JSON.stringify({ id: checkbox.dataset.id, checked: checkbox.checked })
                                 });
 
                                 if (patchRes.ok) {
@@ -172,12 +172,29 @@
                                 } else {
                                     msg.textContent = `Error updating "${r.item_name}".`;
                                 }
-                                } catch (err) {
-                                msg.textContent = 'Network error: ' + err.message;
+                            } catch (err) {
+                            msg.textContent = 'Network error: ' + err.message;
+                            }
+                        });
+
+                        // When delete button is clicked, delete from DB
+                        deleteMe.addEventListener('click', async() => {
+                            try {
+                                const patchRes = await fetch('/api/delete', {
+                                    method: 'DELETE',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ id: checkbox.dataset.id })
+                                });
+
+                                if (patchRes.ok) {
+                                    msg.textContent = `Deleted "${r.item_name}" successfully.`;
+                                } else {
+                                    msg.textContent = `Error deleting "${r.item_name}".`;
                                 }
-                            });
-
-
+                            } catch (err) {
+                            msg.textContent = 'Network error: ' + err.message;
+                            }
+                        });
 
                         const item = r.item_name ?? '';
                         const store = r.store ?? '';

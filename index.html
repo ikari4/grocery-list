@@ -63,7 +63,7 @@
         </div>
       </div>
       <div id="right">
-          <a href="./addToDatabase.html" class="logo" id="dbLogo"><img src="./blackPlus.png"></a>
+          <a href="./addSearchDelete.html" class="logo" id="dbLogo"><img src="./blackPlus.png"></a>
       </div>
     </div>
     <div id="msgRow">
@@ -108,7 +108,7 @@
       itemsList.innerHTML = '';
 
       try {
-        const res = await fetch(`/api/grocery?store=${encodeURIComponent(store)}&filter=${filter}`);
+        const res = await fetch(`/api/get-index?store=${encodeURIComponent(store)}&filter=${filter}`);
         const json = await res.json();
 
         if (res.ok) {
@@ -139,10 +139,10 @@
                 try {
                   const scrollY = window.scrollY; // Save scroll position
 
-                  const patchRes = await fetch('/api/grocery', {
+                  const patchRes = await fetch('/api/patch', {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id: item.id, checked: checkbox.checked, store: item.store })
+                    body: JSON.stringify({ id: item.id, checked: checkbox.checked })
                   });
 
                   if (patchRes.ok) {
@@ -155,7 +155,7 @@
                     msg.textContent = `Error updating "${item.item_name}".`;
                   }
                 } catch (err) {
-                  msg.textContent = 'Network error: ' + err.message;
+                    msg.textContent = 'Network error: ' + err.message;
                 }
               });
 
