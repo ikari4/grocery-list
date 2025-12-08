@@ -139,7 +139,7 @@ ul {
 }
 
 .form-group label {
-    width: 110px;
+    width: 102px;
     font-size: 24px;
 }
 
@@ -231,6 +231,7 @@ h3 {
 
 .results-table th:nth-child(1), th:nth-child(3) {
   width: 5%;
+  font-size: 40px;
 }
 
 @media screen and (max-width: 500px) {
