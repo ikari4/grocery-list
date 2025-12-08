@@ -8,7 +8,6 @@
 </head>
 <body>
     <h1>Add New Item</h1>
-
     <form id="groceryList">
         <div class="form-group">
             <label for="itemName">Item:</label>
@@ -43,8 +42,8 @@
         </div>
     </form>
     <br>
+    <div id="addMsg" role="status"></div>
     <hr>
-    <br>
     <h1>Search For Item</h1>
     <form id="search">
         <div class="form-group">
@@ -56,18 +55,17 @@
         </div>
     </form>
     <br>
+    <div id="searchMsg" role="status"></div>
     <div id="listArea"></div>
-    
-    <div id="msg" role="status"></div>
-    <br>
     <hr>
-    <br>   
     <div class="buttonDiv">
         <button id="backHome">Back</button>
     </div>
+
     <script>
         const form = document.getElementById('groceryList');
-        const msg = document.getElementById('msg');
+        const addMsg = document.getElementById('addMsg');
+        const searchMsg = document.getElementById('searchMsg');
         const backBtn = document.getElementById('backHome');
         const searchForm = document.getElementById('search');
         const listArea = document.getElementById('listArea');
@@ -98,20 +96,24 @@
 
                 const json = await res.json();
                 if (res.ok) {
-                msg.textContent = 'Saved — thank you!';
-                form.reset();
+                    addMsg.textContent = 'Saved — thank you!';
+                    searchMsg.textContent = '';
+                    form.reset();
                 } else {
-                msg.textContent = 'Error: ' + (json?.error || res.statusText);
+                    addMsg.textContent = 'Error: ' + (json?.error || res.statusText);
+                    searchMsg.textContent = '';
                 }
             } catch (err) {
-                msg.textContent = 'Network error: ' + err.message;
+                addMsg.textContent = 'Network error: ' + err.message;
+                searchMsg.textContent = '';
             }
         });
 
         // Submit Search Form
         searchForm.addEventListener('submit', async (e) => {
-            // searchBtn.disabled = true;
+            searchBtn.disabled = true;
             searchBtn.textContent = 'Wait...';
+            listArea.innerHTML = '';
             e.preventDefault();
             const searchItem = searchForm.searchItem.value.trim()
 
@@ -128,8 +130,8 @@
                     if (!results.length) {
                         searchBtn.disabled = false;
                         searchBtn.textContent = 'Search';
-                        listArea.textContent = 'No results found';
-                        msg.textContent = 'No matches';
+                        searchMsg.textContent = 'No results found';
+                        addMsg.textContent = '';
                         return;
                     }
 
@@ -168,12 +170,15 @@
                                 });
 
                                 if (patchRes.ok) {
-                                    msg.textContent = `Updated "${r.item_name}" successfully.`;
+                                    searchMsg.textContent = `Updated "${r.item_name}" successfully.`;
+                                    addMsg.textContent = '';
                                 } else {
-                                    msg.textContent = `Error updating "${r.item_name}".`;
+                                    searchMsg.textContent = `Error updating "${r.item_name}".`;
+                                    addMsg.textContent = '';
                                 }
                             } catch (err) {
-                            msg.textContent = 'Network error: ' + err.message;
+                                searchMsg.textContent = 'Network error: ' + err.message;
+                                addMsg.textContent = '';
                             }
                         });
 
@@ -187,12 +192,19 @@
                                 });
 
                                 if (patchRes.ok) {
-                                    msg.textContent = `Deleted "${r.item_name}" successfully.`;
+                                    searchMsg.textContent = `Deleted "${r.item_name}" successfully.`;
+                                    addMsg.textContent = '';
+                                    tr.classList.add("deletedRow");
+                                    checkbox.disabled = true;
+                                    deleteMe.disabled = true;
                                 } else {
-                                    msg.textContent = `Error deleting "${r.item_name}".`;
+                                    searchMsg.textContent = `Error deleting "${r.item_name}".`;
+                                    addMsg.textContent = '';
                                 }
+
                             } catch (err) {
-                            msg.textContent = 'Network error: ' + err.message;
+                                searchMsg.textContent = 'Network error: ' + err.message;
+                                addMsg.textContent = '';
                             }
                         });
 
@@ -216,11 +228,9 @@
                         tbody.appendChild(tr);
                     });
                     table.appendChild(tbody);
-
-                    listArea.innerHTML = '';
                     listArea.appendChild(table);
-
-                    msg.textContent = `Found ${results.length} item(s)`;
+                    searchMsg.textContent = `Found ${results.length} item(s)`;
+                    addMsg.textContent = '';
                     searchBtn.disabled = false;
                     searchBtn.textContent = 'Search';
                     searchForm.reset();
@@ -228,17 +238,18 @@
                 } else {
                     searchBtn.disabled = false;
                     searchBtn.textContent = 'Search';
-                    msg.textContent = 'Error: ' + (json?.error || res.statusText);
+                    serachMsg.textContent = 'Error: ' + (json?.error || res.statusText);
+                    addMsg.textContent = '';
                     
                 }
             } catch (err) {
                 searchBtn.disabled = false;
                 searchBtn.textContent = 'Search';
-                msg.textContent = 'Network error: ' + err.message;
+                searchMsg.textContent = 'Network error: ' + err.message;
+                addMsg.textContent = '';
             }
             
         });
-
 
         // Go To Add to Database Page
         backBtn.addEventListener('click', async () => {

@@ -255,3 +255,8 @@ h3 {
   font-weight: bold;
   border-radius: 50%;
 }
+
+.deletedRow {
+  text-decoration: line-through;
+  background-color: darkgray;
+}
